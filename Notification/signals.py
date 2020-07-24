@@ -1,5 +1,7 @@
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 
 from Task.models import Task
 from .models import Notification
@@ -24,3 +26,13 @@ def create_notification(*args, **kwargs):
                     body=f"Yor created task ID: {task.id} changed his status to {task.is_done}",
                     pk_relation=task.id
                 )
+
+@receiver(post_save, sender=Notification)
+def send_notification_info(*args, **kwargs):
+    if kwargs['created']:
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            'notification_group', {
+                'type':'notification_info'
+            }
+        )

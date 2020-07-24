@@ -46,7 +46,7 @@
     })
   })
 
-  var ws = new WebSocket('ws://127.0.0.1:8000/ws/notification/')
+  var ws = new WebSocket('ws://127.0.0.1:8000/ws/notification/{{request.user.id}}/')
 
   ws.onopen = function(event){
     console.log('opened', event);

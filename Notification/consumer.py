@@ -9,7 +9,7 @@ class NotificationConsumer(AsyncJsonWebsocketConsumer):
         print("CONNECTED", event)
 
         await self.channel_layer.group_add(
-            'notification_group',
+            f"notification_group_{self.scope['url_route']['kwargs']['user_id']}",
             self.channel_name
         )
 

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include 'basic/head.html' %}
+  </head>
+  <body id="page-top">
+    <div id="wrapper">
+      {% include 'basic/sidebar.html' %}
+
+      <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+          {% include 'basic/nav.html' %}
+          <div class="container-fluid">
+            {% block content %}
+            
+            
+            {% endblock %}
+          </div>
+        </div>
+        <footer class="sticky-footer bg-white">
+          {% include 'basic/footer.html' %}
+        </footer>
+      </div>
+    </div>
+    {% include 'basic/javascript.html' %}
+  </body>
+</html>

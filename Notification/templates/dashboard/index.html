@@ -6,4 +6,9 @@
     <b>Notification Count: </b>
     {{unreaded_notification_count}}
 </h3>
+<ul>
+    {% for unreaded_notification in unreaded_notifications %}
+    <li>{{unreaded_notification}}</li>
+    {% endfor %}
+</ul>
 {% endblock %}

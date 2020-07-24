@@ -10,15 +10,49 @@
   <h6 class="dropdown-header">
     Alerts Center
   </h6>
-  <a class="dropdown-item d-flex align-items-center" href="#">
-    {% include 'basic/notificationTemplates/creationReminder.html' %}
+  {% for unreaded_notification in unreaded_notifications %}
+    {% if unreaded_notification.group == "c" %}
+      <a class="dropdown-item d-flex align-items-center" href="#">
+        <div class="mr-3">
+          <div class="icon-circle bg-primary">
+            <i class="fas fa-file-alt text-white"></i>
+          </div>
+        </div>
+        <div>
+          <div class="small text-gray-500">{{unreaded_notification.creation_date|date:"Y-m-d"}}</div>
+          {{unreaded_notification.body}}
+        </div>
+      </a>
+    {% elif unreaded_notification.group == "d" %}
+      <a class="dropdown-item d-flex align-items-center" href="#">
+        <div class="mr-3">
+          <div class="icon-circle bg-success">
+            <i class="fas fa-donate text-white"></i>
+          </div>
+        </div>
+        <div>
+          <div class="small text-gray-500">{{unreaded_notification.creation_date|date:"Y-m-d"}}</div>
+          {{unreaded_notification.body}}
+        </div>
+      </a>
+    {% else %}
+      <a class="dropdown-item d-flex align-items-center" href="#">
+        <div class="mr-3">
+          <div class="icon-circle bg-warning">
+            <i class="fas fa-exclamation-triangle text-white"></i>
+          </div>
+        </div>
+        <div>
+          <div class="small text-gray-500">{{unreaded_notification.creation_date|date:"Y-m-d"}}</div>
+          {{unreaded_notification.body}}
+        </div>
+      </a>
+    {% endif %}
+  {% endfor %}
+  {% for old_notification in old_notifications %}
+  <a class="dropdown-item text-center small text-gray-500" href="#">
+    <b>{{old_notification.get_group_display}}</b><br/>
+    {{old_notification.body}}
   </a>
-  <a class="dropdown-item d-flex align-items-center" href="#">
-    {% include 'basic/notificationTemplates/doneReminder.html' %}
-  </a>
-  <a class="dropdown-item d-flex align-items-center" href="#">
-    {% include 'basic/notificationTemplates/systemReminder.html' %}
-  </a>
-  
-  <a class="dropdown-item text-center small text-gray-500" href="#">Old Alerts</a>
+  {% endfor %}
 </div>

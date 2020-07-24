@@ -1,8 +1,8 @@
 <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
   <i class="fas fa-bell fa-fw"></i>
   <!-- Counter - Alerts -->
-  <span class="badge badge-danger badge-counter">
-    {{unreaded_notification_count}}
+  <span class="badge badge-danger badge-counter" id="newNotificationCount">
+    0
   </span>
 </a>
 <!-- Dropdown - Alerts -->
@@ -10,45 +10,10 @@
   <h6 class="dropdown-header">
     Alerts Center
   </h6>
-  {% for unreaded_notification in unreaded_notifications %}
-    {% if unreaded_notification.group == "c" %}
-      <a class="dropdown-item d-flex align-items-center" href="#">
-        <div class="mr-3">
-          <div class="icon-circle bg-primary">
-            <i class="fas fa-file-alt text-white"></i>
-          </div>
-        </div>
-        <div>
-          <div class="small text-gray-500">{{unreaded_notification.creation_date|date:"Y-m-d"}}</div>
-          {{unreaded_notification.body}}
-        </div>
-      </a>
-    {% elif unreaded_notification.group == "d" %}
-      <a class="dropdown-item d-flex align-items-center" href="#">
-        <div class="mr-3">
-          <div class="icon-circle bg-success">
-            <i class="fas fa-donate text-white"></i>
-          </div>
-        </div>
-        <div>
-          <div class="small text-gray-500">{{unreaded_notification.creation_date|date:"Y-m-d"}}</div>
-          {{unreaded_notification.body}}
-        </div>
-      </a>
-    {% else %}
-      <a class="dropdown-item d-flex align-items-center" href="#">
-        <div class="mr-3">
-          <div class="icon-circle bg-warning">
-            <i class="fas fa-exclamation-triangle text-white"></i>
-          </div>
-        </div>
-        <div>
-          <div class="small text-gray-500">{{unreaded_notification.creation_date|date:"Y-m-d"}}</div>
-          {{unreaded_notification.body}}
-        </div>
-      </a>
-    {% endif %}
-  {% endfor %}
+  <span id="newNotifications">
+  </span>
+  <span id="cheat">
+  </span>
   {% for old_notification in old_notifications %}
   <a class="dropdown-item text-center small text-gray-500" href="#">
     <b>{{old_notification.get_group_display}}</b><br/>
@@ -62,6 +27,50 @@
 
 <script>
   function loadNotifications(){
-    
+    $.ajax({
+      method:'get',
+      url:"{% url 'AJAXGetNotificationInfo' %}",
+      data:{},
+      success: function(data){
+        var old_notifications = JSON.parse(data.old_notifications);
+        var unreaded_notifications = JSON.parse(data.unreaded_notifications);
+        var unreaded_notification_count = data.unreaded_notification_count;
+        
+        $('#newNotifications').html('')
+        unreaded_notifications.forEach(element => {
+          var obj = new NotificationObj(element.fields)
+          $('#newNotifications').append(obj.drawNotification())
+        });
+
+        $('#newNotificationCount').text(unreaded_notification_count)
+        console.log('loaded')
+      },
+      error: function(data){
+        console.log('ERR',data)
+      }
+    })
   }
+
+  $('#alertsDropdown').click(function(){
+    const tmpObjsHTML = $('#newNotifications').html()
+    $.ajax({
+      method:'post',
+      url:'{% url "AJAXMarkNotificationAsReaded" %}',
+      data:{
+        csrfmiddlewaretoken:'{{csrf_token}}'
+      },
+      success:function(data){
+        $('#newNotifications').html('')
+        $('#cheat').html(tmpObjsHTML)
+      },
+      error:function(data){
+        console.log('ERR',data)
+      }
+    })
+  })
+
+
+  window.setInterval(function(){
+    loadNotifications();
+  }, 1000);
 </script>

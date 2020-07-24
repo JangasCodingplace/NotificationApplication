@@ -4,49 +4,55 @@ class NotificationObj{
   }
   creationReminder(){
     var reminder = `
-      <div class="mr-3">
-        <div class="icon-circle bg-primary">
-          <i class="fas fa-file-alt text-white"></i>
+      <a class="dropdown-item d-flex align-items-center" href="#">
+        <div class="mr-3">
+          <div class="icon-circle bg-primary">
+            <i class="fas fa-file-alt text-white"></i>
+          </div>
         </div>
-      </div>
-      <div>
-        <div class="small text-gray-500">
-          ${this.notificationObj.creation_date}
+        <div>
+          <div class="small text-gray-500">
+            ${this.notificationObj.creation_date}
+          </div>
+          ${this.notificationObj.body}
         </div>
-        ${this.notificationObj.body}
-      </div>
+      </a>
     `
     return reminder;
   }
   doneReminder(){
     var reminder = `
-      <div class="mr-3">
-        <div class="icon-circle bg-success">
-          <i class="fas fa-donate text-white"></i>
+      <a class="dropdown-item d-flex align-items-center" href="#">
+        <div class="mr-3">
+          <div class="icon-circle bg-success">
+            <i class="fas fa-donate text-white"></i>
+          </div>
         </div>
-      </div>
-      <div>
-        <div class="small text-gray-500">
-          ${this.notificationObj.creation_date}
+        <div>
+          <div class="small text-gray-500">
+            ${this.notificationObj.creation_date}
+          </div>
+          ${this.notificationObj.body}
         </div>
-        ${this.notificationObj.body}
-      </div>
+      </a>
     `
     return reminder;
   }
   systemReminder(){
     var reminder = `
-      <div class="mr-3">
-        <div class="icon-circle bg-warning">
-          <i class="fas fa-exclamation-triangle text-white"></i>
+      <a class="dropdown-item d-flex align-items-center" href="#">
+        <div class="mr-3">
+          <div class="icon-circle bg-warning">
+            <i class="fas fa-exclamation-triangle text-white"></i>
+          </div>
         </div>
-      </div>
-      <div>
-      <div class="small text-gray-500">
-        ${this.notificationObj.creation_date}
-      </div>
-      ${this.notificationObj.body}
-      </div>
+        <div>
+        <div class="small text-gray-500">
+          ${this.notificationObj.creation_date}
+        </div>
+        ${this.notificationObj.body}
+        </div>
+      </a>
     `
     return reminder;
   }

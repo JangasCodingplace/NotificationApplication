@@ -11,4 +11,19 @@
     <li>{{unreaded_notification}}</li>
     {% endfor %}
 </ul>
+
+<ul id="testList">
+</ul>
+
+<script>
+  function showNumbers(){
+    for(var i=0; i<3; i++){
+      $('#testList').append(`<li>Number ${i}</li>`)
+    }
+  }
+
+  // window.setInterval(function(){
+  //   showNumbers();
+  // }, 1000);
+</script>
 {% endblock %}
